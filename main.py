@@ -1,17 +1,22 @@
 import os #importing the os module to interact with operating system
 import shutil #importing the shutil module to perform file operations
 
-path = input("Enter the path of the directory you want to organize: ") #taking user input for required directory path
 
-if os.path.exists(path): #checking if the provided path exists
-    files_list = os.listdir(path) #listing all files in the provided directory
-    for file in files_list: #looping through each file in the directory
-        filename, extension = os.path.splitext(file) #splitting the file name and its extension
-        extension = extension[1:] #removing the dot from the extension
+def file_sort(path, log):
+    if not os.path.exists(path): #checking if the provided path exists
+        log(f"Path '{path}' does not exist.")
+        return
+    
+    files_list = os.listdir(path) #listing all files in the provided path
+
+    for file in files_list: #iterating through each file in the list
+        filename, extension = os.path.splittext(file) #splitting the file name and extension
+        extension = extension[1:].lower() #removing the dot and converting to lowercase
         if extension == "":
-            extension = "Null" #if there is no extension, assigning "Null" as the extension
-        if os.path.exists(path+"/"+extension): #checking if a directory with the name of the extension already exists
-            shutil.move(path+"/"+file, path+"/"+extension+"/"+file) #moves the file to the corresponding extension directory
-        else:
-            os.makedirs(path+"/"+extension) #create a new directory with the name of the extension
-            shutil.move(path+"/"+file, path+"/"+extension+"/"+file) #moves the file to the newly created extension directory
+            extension = "Null" #if there is no extension, set it to "Null"
+        destination_dir = path + "/" + extension #creating the destination directory path
+        if not os.path.exists(destination_dir): #checking if the destination directory exists
+            os.makedirs(destination_dir) #creating the destination directory if it does not exist
+        shutil.move(path + "/" + file, path + "/" + extension + "/" + file) #moving the file to the destination directory
+        log(f"Moved '{file}' to '{destination_dir}'") #logging the file movement
+    log("File sorting completed.") #completion of the sorting process
