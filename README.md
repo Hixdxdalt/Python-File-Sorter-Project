@@ -2,9 +2,11 @@
 A simple file sorter using python
 
 # Modules and Packages used
--OS
+- OS
 
--Shutil
+- Shutil
+
+- tkinter
 
 # Functionality
 OS is used to iterate all the files within the directory, using os to split the filename and file extension.
